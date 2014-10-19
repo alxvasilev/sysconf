@@ -8,4 +8,4 @@ var pageSize = sysconf.get(sysconf._SC_PAGE_SIZE)/1024;
 console.log("Memory page size: ", pageSize, "kB");
 console.log("Total Physical Memory: ",
             (sysconf(sysconf._SC_PHYS_PAGES) * pageSize), "kB");
-console.log("Known sysconf constants:\n"+JSON.stringify(sysconf.keys()));
+console.log("Known sysconf constant names:\n"+JSON.stringify(sysconf.keys));

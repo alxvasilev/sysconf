@@ -34,8 +34,9 @@ console.log(sysconf.get(sysconf._SC_CLK_TCK)); // 100
 //List the known constants and their values for this system
 //Note that the availability of each constant in the system's headers
 //is tested when the module is installed (compile time), and only supported ones are
-//available in JS
-console.log(JSON.stringify(sysconf.keys()));
+//available in JS. If you want to add a constant name to be recognized, you can add it
+//to the keys object
+console.log(JSON.stringify(sysconf.keys);
 
 ## License
 

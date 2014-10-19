@@ -21,7 +21,6 @@
 using namespace v8;
 
 typedef std::map<std::string, int> NameIdMap;
-NameIdMap gNameIdMap;
 
 NAN_METHOD(sysconf)
 {
@@ -32,22 +31,12 @@ NAN_METHOD(sysconf)
   int id = -1;
   v8::Value* arg0 = *args[0];
 
-  if (arg0->IsInt32())
-  {
-      id = arg0->Int32Value();
-  }
-  else if (arg0->IsString())
-  {
-      String::Utf8Value name(arg0->ToString());
-      NameIdMap::iterator it = gNameIdMap.find(*name);
-      if (it != gNameIdMap.end())
-          id = it->second;
-      else
-          MY_THROW_EXCEP("Unknown sysconf parameter string name. You may want to use a number instead.");
-  }
-  else
-      MY_THROW_EXCEP("Parameter must be either integer or string");
+  if (!arg0->IsInt32())
+      MY_THROW_EXCEP("Parameter must be integer");
 
+  id = arg0->Int32Value();
+  if (id < 0)
+      MY_THROW_EXCEP("Parameter must be a non-negative integer");
   long result = sysconf(id);
   if (result > 0)
       NanReturnValue(NanNew<Number>(result));
@@ -56,7 +45,6 @@ NAN_METHOD(sysconf)
 }
 
 #define ADD_KEY(name)            \
-    gNameIdMap[#name] = name;    \
     obj->Set(NanNew<String>(#name), NanNew<Number>((int)name))
 
 NAN_METHOD(keys)
