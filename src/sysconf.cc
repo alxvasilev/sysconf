@@ -19,10 +19,9 @@
 } while(0)
 
 using namespace v8;
-
 typedef std::map<std::string, int> NameIdMap;
 
-NAN_METHOD(sysconf)
+NAN_METHOD(call)
 {
   NanEscapableScope();
   if (args.Length() != 1)
@@ -125,7 +124,7 @@ NAN_METHOD(keys)
 
 void init(Handle<Object> target)
 {
-  target->Set(NanNew<String>("sysconf"), NanNew<FunctionTemplate>(sysconf)->GetFunction());
+  target->Set(NanNew<String>("sysconf"), NanNew<FunctionTemplate>(call)->GetFunction());
   target->Set(NanNew<String>("keys"), NanNew<FunctionTemplate>(keys)->GetFunction());
 }
 
